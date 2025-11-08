@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="shield-icon">🛡️</span>
+                <h1>Phishing Detector</h1>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active" data-page="home">Home</a>
+                <a href="#history" class="nav-link" data-page="history">History</a>
+                <a href="#about" class="nav-link" data-page="about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <div class="container">
+                <div class="hero">
+                    <h2>Protect Yourself from Phishing Attacks</h2>
+                    <p>Analyze URLs and emails using advanced machine learning to detect phishing attempts</p>
+                </div>
+
+                <!-- Analysis Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="url">URL Analysis</button>
+                    <button class="tab-btn" data-tab="email">Email Analysis</button>
+                </div>
+
+                <!-- URL Analysis Tab -->
+                <div id="url-tab" class="tab-content active">
+                    <div class="analysis-card">
+                        <h3>Analyze a URL</h3>
+                        <p class="subtitle">Enter a URL to check if it's a phishing attempt</p>
+
+                        <form id="url-form" class="analysis-form">
+                            <div class="input-group">
+                                <input type="text" id="url-input" placeholder="https://example.com" required
+                                    class="input-field">
+                                <button type="submit" class="btn btn-primary" id="url-analyze-btn">
+                                    <span class="btn-text">Analyze URL</span>
+                                    <span class="btn-loader" style="display: none;">
+                                        <span class="spinner"></span> Analyzing...
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- URL Examples -->
+                        <div class="examples">
+                            <p class="examples-label">Try these examples:</p>
+                            <button class="example-btn" data-url="http://paypal-verify.com/login">Phishing
+                                Example</button>
+                            <button class="example-btn" data-url="https://www.google.com">Safe Example</button>
+                            <button class="example-btn" data-url="http://192.168.1.1/login">IP Address</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Analysis Tab -->
+                <div id="email-tab" class="tab-content">
+                    <div class="analysis-card">
+                        <h3>Analyze Email Content</h3>
+                        <p class="subtitle">Paste email content to check for phishing indicators</p>
+
+                        <form id="email-form" class="analysis-form">
+                            <div class="input-group">
+                                <textarea id="email-input" placeholder="Paste email content here..." required
+                                    class="textarea-field" rows="6"></textarea>
+                                <button type="submit" class="btn btn-primary" id="email-analyze-btn">
+                                    <span class="btn-text">Analyze Email</span>
+                                    <span class="btn-loader" style="display: none;">
+                                        <span class="spinner"></span> Analyzing...
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Email Examples -->
+                        <div class="examples">
+                            <p class="examples-label">Try these examples:</p>
+                            <button class="example-btn"
+                                data-email="URGENT: Your account will be suspended! Click here to verify immediately.">Phishing
+                                Email</button>
+                            <button class="example-btn"
+                                data-email="Hello, your order #12345 has been shipped and will arrive tomorrow.">Safe
+                                Email</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results-section" class="results-section" style="display: none;">
+                    <div class="results-card">
+                        <div class="results-header">
+                            <h3>Analysis Results</h3>
+                            <button id="close-results" class="close-btn">×</button>
+                        </div>
+
+                        <div id="results-content">
+                            <!-- Results will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Section -->
+                <div id="error-section" class="error-section" style="display: none;">
+                    <div class="error-card">
+                        <div class="error-icon">⚠️</div>
+                        <h3>Error</h3>
+                        <p id="error-message"></p>
+                        <button id="close-error" class="btn btn-secondary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="history-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h2>Analysis History</h2>
+                    <p>View your recent URL and email analyses</p>
+                </div>
+
+                <div class="history-controls">
+                    <button id="clear-history" class="btn btn-secondary">Clear History</button>
+                    <div class="filter-group">
+                        <label>Filter:</label>
+                        <select id="history-filter" class="select-field">
+                            <option value="all">All</option>
+                            <option value="url">URLs Only</option>
+                            <option value="email">Emails Only</option>
+                            <option value="phishing">Phishing Only</option>
+                            <option value="legitimate">Legitimate Only</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="history-list" class="history-list">
+                    <!-- History items will be inserted here -->
+                </div>
+
+                <div id="empty-history" class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h3>No History Yet</h3>
+                    <p>Your analysis history will appear here</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about-page" class="page">
+            <div class="container">
+                <div class="about-content">
+                    <h2>About Phishing Detection System</h2>
+
+                    <div class="about-section">
+                        <h3>🎯 What is Phishing?</h3>
+                        <p>Phishing is a cybercrime where attackers impersonate legitimate organizations to steal
+                            sensitive information like passwords, credit card numbers, and personal data.</p>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>🛡️ How It Works</h3>
+                        <p>Our system uses machine learning to analyze URLs and email content for phishing indicators:
+                        </p>
+                        <ul>
+                            <li><strong>URL Analysis:</strong> Examines 14 features including domain length, suspicious
+                                keywords, HTTPS usage, and more</li>
+                            <li><strong>Email Analysis:</strong> Detects urgency keywords, suspicious phrases, and
+                                embedded malicious links</li>
+                            <li><strong>ML Model:</strong> Random Forest classifier trained on phishing and legitimate
+                                samples</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>📊 Features Analyzed</h3>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <span class="feature-icon">🔗</span>
+                                <h4>URL Structure</h4>
+                                <p>Domain length, subdomains, special characters</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🔒</span>
+                                <h4>Security</h4>
+                                <p>HTTPS usage, IP addresses, URL shorteners</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">⚠️</span>
+                                <h4>Suspicious Content</h4>
+                                <p>Keywords like "verify", "urgent", "account"</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">📧</span>
+                                <h4>Email Patterns</h4>
+                                <p>Urgency, suspicious phrases, link density</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>🎓 Classification</h3>
+                        <div class="classification-info">
+                            <div class="classification-item danger">
+                                <strong>Phishing (Score > 70)</strong>
+                                <p>High risk - Do not proceed</p>
+                            </div>
+                            <div class="classification-item warning">
+                                <strong>Suspicious (Score 40-70)</strong>
+                                <p>Medium risk - Proceed with caution</p>
+                            </div>
+                            <div class="classification-item safe">
+                                <strong>Legitimate (Score < 40)</strong>
+                                        <p>Low risk - Appears safe</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>💡 Tips to Avoid Phishing</h3>
+                        <ul>
+                            <li>Always check the URL before entering sensitive information</li>
+                            <li>Look for HTTPS and a valid SSL certificate</li>
+                            <li>Be suspicious of urgent or threatening messages</li>
+                            <li>Verify sender email addresses carefully</li>
+                            <li>Don't click on links in unsolicited emails</li>
+                            <li>Use our tool to verify suspicious URLs and emails</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>🔧 Technology Stack</h3>
+                        <p><strong>Backend:</strong> Python, FastAPI, scikit-learn, Random Forest ML model</p>
+                        <p><strong>Frontend:</strong> HTML5, CSS3, Vanilla JavaScript</p>
+                        <p><strong>Features:</strong> 14 URL features, 5 email features</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Phishing Detection System. Built with machine learning to keep you safe.</p>
+            <p class="footer-note">⚠️ This tool provides guidance but should not be your only security measure.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

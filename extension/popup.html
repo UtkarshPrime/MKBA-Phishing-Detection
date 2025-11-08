@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing Detection</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Phishing Detector</h1>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Analyzing current page...</p>
+        </div>
+
+        <div id="result" class="result" style="display: none;">
+            <div id="status-icon" class="status-icon"></div>
+            <h2 id="status-text"></h2>
+            <div class="score-container">
+                <div class="score-label">Risk Score</div>
+                <div id="score" class="score"></div>
+            </div>
+            <div id="message" class="message"></div>
+            <button id="analyze-btn" class="btn">Re-analyze</button>
+        </div>
+
+        <div id="error" class="error" style="display: none;">
+            <p>⚠️ Could not analyze this page</p>
+            <p class="error-detail">Make sure the API server is running</p>
+            <button id="retry-btn" class="btn">Retry</button>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
