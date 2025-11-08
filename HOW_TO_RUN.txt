@@ -1,0 +1,117 @@
+╔════════════════════════════════════════════════════════════╗
+║     HOW TO RUN THE PHISHING DETECTION SYSTEM              ║
+╚════════════════════════════════════════════════════════════╝
+
+EASIEST METHOD (2 Steps):
+═══════════════════════════════════════════════════════════
+
+Step 1: Start the Backend
+--------------------------
+Double-click: START_BACKEND.bat
+(A window will open - KEEP IT OPEN!)
+
+You should see:
+  "Model loaded successfully"
+  "Uvicorn running on http://0.0.0.0:8000"
+
+Step 2: Open the Frontend
+--------------------------
+Go to the "frontend" folder
+Double-click: index.html
+(Opens in your browser)
+
+Now click "Phishing Example" to test!
+
+
+ALTERNATIVE METHOD (Use START_ALL.bat):
+═══════════════════════════════════════════════════════════
+
+1. Double-click: START_ALL.bat
+2. Two windows will open (backend and frontend)
+3. Wait 5 seconds
+4. Open browser to: http://localhost:8080
+
+
+MANUAL METHOD (If batch files don't work):
+═══════════════════════════════════════════════════════════
+
+Step 1: Open Command Prompt
+----------------------------
+Press Windows Key + R
+Type: cmd
+Press Enter
+
+Step 2: Navigate to Backend
+----------------------------
+Copy and paste this command:
+cd "C:\Users\Utkarsh\Desktop\Coding\Python\Major Project\phishing_detection\backend"
+
+Press Enter
+
+Step 3: Start Backend
+---------------------
+Type: python app.py
+Press Enter
+
+KEEP THIS WINDOW OPEN!
+
+Step 4: Open Frontend
+---------------------
+Open File Explorer
+Go to: phishing_detection\frontend
+Double-click: index.html
+
+
+TESTING:
+═══════════════════════════════════════════════════════════
+
+Once the frontend is open:
+1. Click "Phishing Example" button
+2. See: Score 88/100, Classification: Phishing 🚨
+3. Click "Safe Example" button  
+4. See: Score 2/100, Classification: Legitimate ✅
+
+
+TROUBLESHOOTING:
+═══════════════════════════════════════════════════════════
+
+Problem: "python is not recognized"
+Solution: Use "py" instead of "python"
+  py app.py
+
+Problem: "Failed to analyze" in frontend
+Solution: Backend is not running. Start it first!
+
+Problem: "Module not found"
+Solution: Install dependencies
+  pip install -r requirements.txt
+
+Problem: Port already in use
+Solution: Close other programs using port 8000
+
+
+WHAT SHOULD BE RUNNING:
+═══════════════════════════════════════════════════════════
+
+✓ Backend: One terminal window showing "Uvicorn running"
+✓ Frontend: Browser with the Phishing Detector interface
+
+Both must be running for the system to work!
+
+
+QUICK TEST:
+═══════════════════════════════════════════════════════════
+
+1. Open browser to: http://localhost:8000
+   Should show: {"message":"Phishing Detection API",...}
+   
+2. If you see the JSON, backend is working! ✓
+
+3. Now open the frontend (index.html)
+
+4. Click examples and see results!
+
+
+═══════════════════════════════════════════════════════════
+Need help? Check README.md or QUICKSTART.md
+═══════════════════════════════════════════════════════════

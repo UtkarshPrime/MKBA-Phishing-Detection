@@ -11,8 +11,11 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
     if (details.frameId === 0) { // Main frame only
         const url = details.url;
 
-        // Skip chrome:// and extension URLs
-        if (url.startsWith('chrome://') || url.startsWith('chrome-extension://')) {
+        // Skip chrome://, extension URLs, and local files
+        if (url.startsWith('chrome://') ||
+            url.startsWith('chrome-extension://') ||
+            url.startsWith('file://') ||
+            url.startsWith('about:')) {
             return;
         }
 
@@ -54,8 +57,9 @@ async function analyzeURL(url, tabId) {
         handleAnalysisResult(result, tabId);
 
     } catch (error) {
-        console.error('Error analyzing URL:', error);
+        console.log('API not available - skipping analysis for:', url);
         // Continue without blocking if API is unavailable
+        // This is normal when the backend is not running
     }
 }
 

@@ -1,0 +1,134 @@
+╔════════════════════════════════════════════════════════════╗
+║     CHROME EXTENSION - HOW TO USE                          ║
+╚════════════════════════════════════════════════════════════╝
+
+IMPORTANT: The backend API must be running for the extension to work!
+
+SETUP:
+═══════════════════════════════════════════════════════════
+
+1. Start the Backend API First
+   ----------------------------
+   Open Command Prompt and run:
+   cd phishing_detection\backend
+   python app.py
+   
+   Keep this window open!
+
+2. Reload the Extension
+   --------------------
+   - Go to chrome://extensions/
+   - Find "Phishing Detection Extension"
+   - Click the refresh icon 🔄
+   - Click "Clear all" to dismiss old errors
+
+3. Browse the Web
+   --------------
+   - Visit any website
+   - The extension will automatically analyze URLs
+   - If phishing is detected, you'll see a warning
+
+
+HOW IT WORKS:
+═══════════════════════════════════════════════════════════
+
+Automatic Protection:
+- Extension analyzes URLs as you browse
+- Phishing sites trigger a warning overlay
+- You can choose to go back or proceed
+
+Manual Check:
+- Click the extension icon in toolbar
+- See analysis of current page
+- View risk score and classification
+
+
+ABOUT THE ERROR YOU SAW:
+═══════════════════════════════════════════════════════════
+
+The "Failed to fetch" error is NORMAL when:
+- Backend API is not running
+- You first install the extension
+- You visit a page before starting the API
+
+This is not a bug! The extension is designed to:
+- Try to analyze URLs automatically
+- Fail gracefully if API is unavailable
+- Continue working without blocking your browsing
+
+To fix: Just start the backend API!
+
+
+TESTING THE EXTENSION:
+═══════════════════════════════════════════════════════════
+
+1. Make sure backend is running (python app.py)
+
+2. Visit a test URL:
+   - Try: http://paypal-verify.com (fake example)
+   - Or use the frontend to test first
+
+3. Click the extension icon to see results
+
+4. The extension will show:
+   ✅ Safe sites: Green checkmark, low score
+   ⚠️ Suspicious: Yellow warning
+   🚨 Phishing: Red alert with warning overlay
+
+
+TROUBLESHOOTING:
+═══════════════════════════════════════════════════════════
+
+Problem: "Failed to fetch" errors
+Solution: Start the backend API first!
+  cd phishing_detection\backend
+  python app.py
+
+Problem: Extension not analyzing
+Solution: 
+  1. Check backend is running (visit localhost:8000)
+  2. Reload the extension (chrome://extensions/)
+  3. Try visiting a website
+
+Problem: No warning on phishing sites
+Solution:
+  1. Backend must be running
+  2. Extension needs permission for the site
+  3. Check extension icon for results
+
+
+PERMISSIONS:
+═══════════════════════════════════════════════════════════
+
+The extension needs:
+- activeTab: To analyze current page
+- storage: To cache results
+- webNavigation: To intercept URLs
+- <all_urls>: To protect on any website
+
+These are necessary for phishing protection!
+
+
+PRIVACY:
+═══════════════════════════════════════════════════════════
+
+✓ All analysis is done locally (localhost:8000)
+✓ No data sent to external servers
+✓ No tracking or data collection
+✓ Cache stored locally only
+✓ You control when the backend runs
+
+
+BEST PRACTICES:
+═══════════════════════════════════════════════════════════
+
+1. Start backend before browsing
+2. Keep backend running while browsing
+3. Click extension icon to check any page
+4. Don't ignore phishing warnings!
+5. Report false positives to improve the model
+
+
+═══════════════════════════════════════════════════════════
+For more help, check the main README.md
+═══════════════════════════════════════════════════════════

@@ -12,9 +12,10 @@ echo Press Ctrl+C to stop the servers
 echo ============================================================
 echo.
 
-start "Backend API" cmd /k "cd backend && python app.py"
+set SCRIPT_DIR=%~dp0
+start "Backend API" cmd /k "cd /d "%SCRIPT_DIR%backend" && python app.py"
 timeout /t 3 /nobreak >nul
-start "Frontend Server" cmd /k "cd frontend && python -m http.server 8080"
+start "Frontend Server" cmd /k "cd /d "%SCRIPT_DIR%frontend" && python -m http.server 8080"
 
 echo.
 echo Both servers are starting...
