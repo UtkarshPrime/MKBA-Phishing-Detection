@@ -1,7 +1,7 @@
 # Phishing Detection System
-
-#Model Knowledge Base Architecture
-
+-----------------------------------
+|Model Knowledge Base Architecture|
+-----------------------------------
 A machine learning-based system to detect phishing attempts by analyzing URLs, email content, and website features. Includes a REST API backend and a browser extension for real-time protection.
 
 ## Features
