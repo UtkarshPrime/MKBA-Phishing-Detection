@@ -4,54 +4,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Detection System</title>
+    <title>PhishGuard - AI Phishing Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <span class="shield-icon">🛡️</span>
-                <h1>Phishing Detector</h1>
+<body data-theme="dark">
+    <!-- Animated Background -->
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="logo-text">PhishGuard</span>
+                </div>
             </div>
-            <nav class="nav">
-                <a href="#home" class="nav-link active" data-page="home">Home</a>
-                <a href="#history" class="nav-link" data-page="history">History</a>
-                <a href="#about" class="nav-link" data-page="about">About</a>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" onclick="switchPage('url')">
+                    <i class="fas fa-link"></i>
+                    <span>URL Analysis</span>
+                </button>
+                <button class="nav-item" onclick="switchPage('email')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email Analysis</span>
+                </button>
+                <button class="nav-item" onclick="switchPage('history')">
+                    <i class="fas fa-history"></i>
+                    <span>History</span>
+                </button>
+                <button class="nav-item" onclick="switchPage('about')">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </button>
             </nav>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="main">
-        <!-- Home Page -->
-        <div id="home-page" class="page active">
-            <div class="container">
-                <div class="hero">
-                    <h2>Protect Yourself from Phishing Attacks</h2>
-                    <p>Analyze URLs and emails using advanced machine learning to detect phishing attempts</p>
+            <div class="sidebar-footer">
+                <button class="theme-toggle glass-mini" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                    <span id="theme-text">Dark Mode</span>
+                </button>
+                <div class="user-profile glass-mini">
+                    <div class="avatar">U</div>
+                    <div class="user-info">
+                        <span class="name">Utkarsh</span>
+                        <span class="status">Protected</span>
+                    </div>
                 </div>
+            </div>
+        </aside>
 
-                <!-- Analysis Tabs -->
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="url">URL Analysis</button>
-                    <button class="tab-btn" data-tab="email">Email Analysis</button>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header glass-panel">
+                <h2 id="page-title">URL Analysis</h2>
+                <div class="header-actions">
+                    <button class="icon-btn glass-btn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="icon-btn glass-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
                 </div>
+            </header>
 
-                <!-- URL Analysis Tab -->
-                <div id="url-tab" class="tab-content active">
-                    <div class="analysis-card">
-                        <h3>Analyze a URL</h3>
-                        <p class="subtitle">Enter a URL to check if it's a phishing attempt</p>
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                <!-- URL Analysis Page -->
+                <div id="url-page" class="page active">
+                    <div class="analysis-card glass-card">
+                        <div class="card-header">
+                            <h3>Scan a URL</h3>
+                            <p>Enter a website address to check for phishing threats</p>
+                        </div>
 
                         <form id="url-form" class="analysis-form">
                             <div class="input-group">
-                                <input type="text" id="url-input" placeholder="https://example.com" required
-                                    class="input-field">
-                                <button type="submit" class="btn btn-primary" id="url-analyze-btn">
-                                    <span class="btn-text">Analyze URL</span>
+                                <input type="url" id="url-input" placeholder="https://example.com" required
+                                    class="input-field glass-input">
+                                <button type="submit" class="btn btn-primary glow-btn" id="url-analyze-btn">
+                                    <span class="btn-text">
+                                        <i class="fas fa-search"></i> Scan Now
+                                    </span>
                                     <span class="btn-loader" style="display: none;">
                                         <span class="spinner"></span> Analyzing...
                                     </span>
@@ -59,210 +108,167 @@
                             </div>
                         </form>
 
-                        <!-- URL Examples -->
-                        <div class="examples">
-                            <p class="examples-label">Try these examples:</p>
-                            <button class="example-btn" data-url="http://paypal-verify.com/login">Phishing
-                                Example</button>
-                            <button class="example-btn" data-url="https://www.google.com">Safe Example</button>
-                            <button class="example-btn" data-url="http://192.168.1.1/login">IP Address</button>
+                        <div class="quick-actions">
+                            <p>Quick Test:</p>
+                            <button class="chip glass-chip" data-url="http://paypal-secure-login.com">
+                                <i class="fas fa-exclamation-triangle"></i> Suspicious
+                            </button>
+                            <button class="chip glass-chip" data-url="https://www.google.com">
+                                <i class="fas fa-check-circle"></i> Safe
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="results-section" class="results-section" style="display: none;">
+                        <div class="results-card glass-card">
+                            <div class="results-header">
+                                <h3><i class="fas fa-chart-bar"></i> Analysis Report</h3>
+                                <button id="close-results" class="close-btn">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div id="results-content"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Email Analysis Tab -->
-                <div id="email-tab" class="tab-content">
-                    <div class="analysis-card">
-                        <h3>Analyze Email Content</h3>
-                        <p class="subtitle">Paste email content to check for phishing indicators</p>
+                <!-- Email Analysis Page -->
+                <div id="email-page" class="page">
+                    <div class="analysis-card glass-card">
+                        <div class="card-header">
+                            <h3>Analyze Email</h3>
+                            <p>Paste email content to detect social engineering</p>
+                        </div>
 
                         <form id="email-form" class="analysis-form">
                             <div class="input-group">
-                                <textarea id="email-input" placeholder="Paste email content here..." required
-                                    class="textarea-field" rows="6"></textarea>
-                                <button type="submit" class="btn btn-primary" id="email-analyze-btn">
-                                    <span class="btn-text">Analyze Email</span>
+                                <textarea id="email-input" placeholder="Paste email body here..." required
+                                    class="textarea-field glass-input" rows="8"></textarea>
+                                <button type="submit" class="btn btn-primary glow-btn" id="email-analyze-btn">
+                                    <span class="btn-text">
+                                        <i class="fas fa-search"></i> Analyze Text
+                                    </span>
                                     <span class="btn-loader" style="display: none;">
                                         <span class="spinner"></span> Analyzing...
                                     </span>
                                 </button>
                             </div>
                         </form>
-
-                        <!-- Email Examples -->
-                        <div class="examples">
-                            <p class="examples-label">Try these examples:</p>
-                            <button class="example-btn"
-                                data-email="URGENT: Your account will be suspended! Click here to verify immediately.">Phishing
-                                Email</button>
-                            <button class="example-btn"
-                                data-email="Hello, your order #12345 has been shipped and will arrive tomorrow.">Safe
-                                Email</button>
+                        <!-- Email Results Section -->
+                        <div id="email-results-section" class="results-section" style="display: none;">
+                            <div class="results-card glass-card">
+                                <div class="results-header">
+                                    <h3><i class="fas fa-envelope-open-text"></i> Email Analysis Report</h3>
+                                    <button id="close-email-results" class="close-btn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div id="email-results-content"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Results Section -->
-                <div id="results-section" class="results-section" style="display: none;">
-                    <div class="results-card">
-                        <div class="results-header">
-                            <h3>Analysis Results</h3>
-                            <button id="close-results" class="close-btn">×</button>
-                        </div>
-
-                        <div id="results-content">
-                            <!-- Results will be inserted here -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Error Section -->
-                <div id="error-section" class="error-section" style="display: none;">
-                    <div class="error-card">
-                        <div class="error-icon">⚠️</div>
-                        <h3>Error</h3>
-                        <p id="error-message"></p>
-                        <button id="close-error" class="btn btn-secondary">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- History Page -->
-        <div id="history-page" class="page">
-            <div class="container">
-                <div class="page-header">
-                    <h2>Analysis History</h2>
-                    <p>View your recent URL and email analyses</p>
-                </div>
-
-                <div class="history-controls">
-                    <button id="clear-history" class="btn btn-secondary">Clear History</button>
-                    <div class="filter-group">
-                        <label>Filter:</label>
-                        <select id="history-filter" class="select-field">
-                            <option value="all">All</option>
-                            <option value="url">URLs Only</option>
-                            <option value="email">Emails Only</option>
-                            <option value="phishing">Phishing Only</option>
-                            <option value="legitimate">Legitimate Only</option>
+                <!-- History Page -->
+                <div id="history-page" class="page">
+                    <div class="filter-bar glass-panel">
+                        <select id="history-filter" class="select-field glass-input">
+                            <option value="all">All Activity</option>
+                            <option value="url">URLs</option>
+                            <option value="email">Emails</option>
                         </select>
+                        <button id="clear-history" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                    <div id="history-list" class="history-list"></div>
+                    <div id="empty-history" class="empty-state glass-card">
+                        <div class="empty-icon">📋</div>
+                        <h3>No scans yet</h3>
+                        <p>Your recent activity will appear here</p>
                     </div>
                 </div>
 
-                <div id="history-list" class="history-list">
-                    <!-- History items will be inserted here -->
-                </div>
-
-                <div id="empty-history" class="empty-state">
-                    <div class="empty-icon">📋</div>
-                    <h3>No History Yet</h3>
-                    <p>Your analysis history will appear here</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- About Page -->
-        <div id="about-page" class="page">
-            <div class="container">
-                <div class="about-content">
-                    <h2>About Phishing Detection System</h2>
-
-                    <div class="about-section">
-                        <h3>🎯 What is Phishing?</h3>
-                        <p>Phishing is a cybercrime where attackers impersonate legitimate organizations to steal
-                            sensitive information like passwords, credit card numbers, and personal data.</p>
-                    </div>
-
-                    <div class="about-section">
-                        <h3>🛡️ How It Works</h3>
-                        <p>Our system uses machine learning to analyze URLs and email content for phishing indicators:
-                        </p>
-                        <ul>
-                            <li><strong>URL Analysis:</strong> Examines 14 features including domain length, suspicious
-                                keywords, HTTPS usage, and more</li>
-                            <li><strong>Email Analysis:</strong> Detects urgency keywords, suspicious phrases, and
-                                embedded malicious links</li>
-                            <li><strong>ML Model:</strong> Random Forest classifier trained on phishing and legitimate
-                                samples</li>
-                        </ul>
-                    </div>
-
-                    <div class="about-section">
-                        <h3>📊 Features Analyzed</h3>
-                        <div class="features-grid">
-                            <div class="feature-item">
-                                <span class="feature-icon">🔗</span>
-                                <h4>URL Structure</h4>
-                                <p>Domain length, subdomains, special characters</p>
+                <!-- About Page -->
+                <div id="about-page" class="page">
+                    <div class="about-card glass-card">
+                        <h3><i class="fas fa-shield-alt"></i> About PhishGuard</h3>
+                        <p>Advanced phishing detection powered by Machine Learning and Gemma AI</p>
+                        <div class="stats-grid">
+                            <div class="stat-item glass-mini">
+                                <span class="stat-val">14</span>
+                                <span class="stat-label">URL Features</span>
                             </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">🔒</span>
-                                <h4>Security</h4>
-                                <p>HTTPS usage, IP addresses, URL shorteners</p>
+                            <div class="stat-item glass-mini">
+                                <span class="stat-val">99%</span>
+                                <span class="stat-label">Accuracy</span>
                             </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">⚠️</span>
-                                <h4>Suspicious Content</h4>
-                                <p>Keywords like "verify", "urgent", "account"</p>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">📧</span>
-                                <h4>Email Patterns</h4>
-                                <p>Urgency, suspicious phrases, link density</p>
+                            <div class="stat-item glass-mini">
+                                <span class="stat-val">AI</span>
+                                <span class="stat-label">Powered</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="about-section">
-                        <h3>🎓 Classification</h3>
-                        <div class="classification-info">
-                            <div class="classification-item danger">
-                                <strong>Phishing (Score > 70)</strong>
-                                <p>High risk - Do not proceed</p>
-                            </div>
-                            <div class="classification-item warning">
-                                <strong>Suspicious (Score 40-70)</strong>
-                                <p>Medium risk - Proceed with caution</p>
-                            </div>
-                            <div class="classification-item safe">
-                                <strong>Legitimate (Score < 40)</strong>
-                                        <p>Low risk - Appears safe</p>
-                            </div>
-                        </div>
+                <!-- Error Toast -->
+                <div id="error-section" class="toast glass-toast" style="display: none;">
+                    <div class="toast-content">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="error-message">Error occurred</span>
                     </div>
+                    <button id="close-error" class="toast-close">&times;</button>
+                </div>
+            </div>
+        </main>
+    </div>
 
-                    <div class="about-section">
-                        <h3>💡 Tips to Avoid Phishing</h3>
-                        <ul>
-                            <li>Always check the URL before entering sensitive information</li>
-                            <li>Look for HTTPS and a valid SSL certificate</li>
-                            <li>Be suspicious of urgent or threatening messages</li>
-                            <li>Verify sender email addresses carefully</li>
-                            <li>Don't click on links in unsolicited emails</li>
-                            <li>Use our tool to verify suspicious URLs and emails</li>
-                        </ul>
+    <!-- Chat Widget -->
+    <div id="chat-widget" class="chat-widget">
+        <div class="chat-window glass-card">
+            <div class="chat-header">
+                <div class="header-avatar">🤖</div>
+                <div class="header-info">
+                    <h3>Security Assistant</h3>
+                    <p>Powered by Gemma AI</p>
+                </div>
+                <button class="close-chat" onclick="toggleChat()">&times;</button>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot-message">
+                        Hello! I'm your AI security assistant. Ask me anything about phishing or cybersecurity.
                     </div>
-
-                    <div class="about-section">
-                        <h3>🔧 Technology Stack</h3>
-                        <p><strong>Backend:</strong> Python, FastAPI, scikit-learn, Random Forest ML model</p>
-                        <p><strong>Frontend:</strong> HTML5, CSS3, Vanilla JavaScript</p>
-                        <p><strong>Features:</strong> 14 URL features, 5 email features</p>
-                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Type your question..."
+                        onkeypress="handleChatInput(event)">
+                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Phishing Detection System. Built with machine learning to keep you safe.</p>
-            <p class="footer-note">⚠️ This tool provides guidance but should not be your only security measure.</p>
+    </div>
+    <!-- CSS Animated Robot -->
+    <div class="css-robot-container">
+        <div class="robot-shadow"></div>
+        <div class="robot-wrapper">
+            <div class="robot-arm left"></div>
+            <div class="robot-body">
+                <div class="robot-head">
+                    <div class="robot-face">
+                        <div class="robot-eye left"></div>
+                        <div class="robot-eye right"></div>
+                    </div>
+                    <div class="robot-antenna"></div>
+                </div>
+            </div>
+            <div class="robot-arm right"></div>
         </div>
-    </footer>
+    </div>
 
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="script.js"></script>
 </body>
 

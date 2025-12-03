@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import joblib
 import os
 from feature_extractor import FeatureExtractor
+from gemma_client import GemmaClient
 import numpy as np
 
 app = FastAPI(title="Phishing Detection API")
@@ -20,6 +21,10 @@ app.add_middleware(
 # Initialize feature extractor
 feature_extractor = FeatureExtractor()
 
+# Initialize Gemma Client
+gemma_client = GemmaClient()
+
+
 # Load model (will be created by training script)
 MODEL_PATH = "model.pkl"
 model = None
@@ -33,6 +38,22 @@ try:
 except Exception as e:
     print(f"Error loading model: {e}")
 
+# Load Email Model
+EMAIL_MODEL_PATH = "email_model.pkl"
+TFIDF_PATH = "tfidf_vectorizer.pkl"
+email_model = None
+tfidf_vectorizer = None
+
+try:
+    if os.path.exists(EMAIL_MODEL_PATH) and os.path.exists(TFIDF_PATH):
+        email_model = joblib.load(EMAIL_MODEL_PATH)
+        tfidf_vectorizer = joblib.load(TFIDF_PATH)
+        print("Email Model loaded successfully")
+    else:
+        print("Warning: Email model not found. Please train it first.")
+except Exception as e:
+    print(f"Error loading email model: {e}")
+
 
 class URLRequest(BaseModel):
     url: str
@@ -40,6 +61,23 @@ class URLRequest(BaseModel):
 
 class EmailRequest(BaseModel):
     content: str
+
+
+class ChatRequest(BaseModel):
+    message: str
+    history: list = []
+    context: dict = {}
+
+
+@app.post("/chat")
+def chat(request: ChatRequest):
+    """Chat with the security assistant"""
+    if not gemma_client.is_available():
+        raise HTTPException(status_code=503, detail="AI Assistant is currently unavailable (Ollama not running).")
+    
+    response = gemma_client.chat(request.message, request.history, request.context)
+    return {"response": response}
+
 
 
 class AnalysisResponse(BaseModel):
@@ -55,7 +93,8 @@ def read_root():
         "message": "Phishing Detection API",
         "endpoints": {
             "POST /analyze/url": "Analyze a URL for phishing",
-            "POST /analyze/email": "Analyze email content for phishing"
+            "POST /analyze/email": "Analyze email content for phishing",
+            "POST /chat": "Chat with the security assistant"
         }
     }
 
@@ -114,46 +153,69 @@ def analyze_url(request: URLRequest):
 
 @app.post("/analyze/email", response_model=AnalysisResponse)
 def analyze_email(request: EmailRequest):
-    """Analyze email content for phishing indicators"""
+    """Analyze email content for phishing indicators using ML Model (TF-IDF + Random Forest)"""
     try:
-        # Extract features
-        features = feature_extractor.extract_email_features(request.content)
+        # Check if ML model is available
+        if not email_model or not tfidf_vectorizer:
+             # Fallback to Gemma if ML model is missing (or return error)
+             if not gemma_client.is_available():
+                 return AnalysisResponse(
+                    classification="unknown",
+                    score=0,
+                    features={},
+                    message="⚠️ Analysis Unavailable. Please train the email model or ensure Ollama is running."
+                )
+             # ... (Gemma fallback logic could go here, but let's stick to ML as primary)
+             raise HTTPException(status_code=503, detail="Email ML model not loaded.")
 
-        # Simple rule-based classification for emails (can be enhanced with ML)
-        score = 0
-
-        if features['urgency_count'] > 2:
-            score += 30
-        if features['url_count'] > 3:
-            score += 25
-        if features['suspicious_phrases'] > 1:
-            score += 30
-        if features['exclamation_count'] > 3:
-            score += 15
-
-        score = min(score, 100)
-
+        print("Using ML Model for email analysis...")
+        
+        # Vectorize content
+        features_vector = tfidf_vectorizer.transform([request.content])
+        
+        # Predict
+        prediction = email_model.predict(features_vector)[0]
+        probability = email_model.predict_proba(features_vector)[0]
+        
+        # Calculate score
+        phishing_prob = probability[1] if len(probability) > 1 else probability[0]
+        score = float(phishing_prob * 100)
+        
         # Determine classification
         if score > 70:
             classification = "phishing"
-            message = "⚠️ This email appears to be a phishing attempt."
+            message = "⚠️ This email contains patterns consistent with phishing attempts."
         elif score > 40:
             classification = "suspicious"
-            message = "⚡ This email shows suspicious characteristics."
+            message = "⚡ This email looks suspicious. Proceed with caution."
         else:
             classification = "legitimate"
             message = "✓ This email appears to be safe."
 
+        # Optional: Use Gemma for explanation only (if available)
+        if gemma_client.is_available():
+            try:
+                # Ask Gemma for a brief explanation based on the ML verdict
+                prompt = f"I have classified this email as '{classification}'. Explain why briefly.\n\nEmail: {request.content[:500]}..."
+                explanation = gemma_client._generate(prompt)
+                if explanation:
+                    message += f" AI Note: {explanation}"
+            except:
+                pass
+
         return AnalysisResponse(
             classification=classification,
-            score=float(score),
-            features=features,
+            score=score,
+            features={}, 
             message=message
         )
 
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Error analyzing email: {str(e)}")
+
+
+
 
 
 if __name__ == "__main__":
